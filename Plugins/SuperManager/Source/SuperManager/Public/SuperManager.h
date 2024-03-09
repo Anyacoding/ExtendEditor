@@ -22,6 +22,7 @@ private:
 	TSharedRef<FExtender> CustomContentBrowserExtender(const TArray<FString>& SelectedPaths);
 	void AddContentBrowserEntry(FMenuBuilder& MenuBuilder);
 	void OnDeleteUnusedAssetButtonClicked();
+	void FixUpRedirectors();
 
 #pragma endregion 
 };

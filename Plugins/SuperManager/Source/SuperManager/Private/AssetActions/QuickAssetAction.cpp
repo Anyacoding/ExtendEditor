@@ -11,6 +11,7 @@
 #include "AssetRegistry/AssetRegistryModule.h"
 #include "AssetViewUtils.h"
 
+#define LOCTEXT_NAMESPACE "ContentBrowser"
 
 void UQuickAssetAction::DuplicateAssets(int32 NumOfDuplicates)
 {
@@ -129,40 +130,21 @@ void UQuickAssetAction::FixUpRedirectors()
 
 	FARFilter Filter;
 	Filter.bRecursivePaths = true;
-	Filter.PackagePaths.Add(FName("/Game"));
-	Filter.ClassPaths.Add(UObjectRedirector::StaticClass()->GetClassPathName());
+	Filter.PackagePaths.Emplace(FName("/Game"));
+	Filter.ClassPaths.Emplace(UObjectRedirector::StaticClass()->GetClassPathName());
 	
 	TArray<FAssetData> OutRedirectors;
 	AssetRegistryModule.Get().GetAssets(Filter, OutRedirectors);
-
-	if (OutRedirectors.Num() == 0)
-	{
-		return;
-	}
 	
-	TArray<FString> ObjectPaths;
-	for (const FAssetData& OutRedirector : OutRedirectors)
+	for(const FAssetData& RedirectorData : OutRedirectors)
 	{
-		ObjectPaths.Add(OutRedirector.GetObjectPathString());
-	}
-
-	TArray<UObject*> Objects;
-	const bool bAllowedToPromptToLoadAssets = true;
-	const bool bLoadRedirects = true;
-
-	if (AssetViewUtils::LoadAssetsIfNeeded(ObjectPaths, Objects, bAllowedToPromptToLoadAssets, bLoadRedirects))
-	{
-		// Transform Objects array to ObjectRedirectors array
-		TArray<UObjectRedirector*> Redirectors;
-		for (UObject* Object : Objects)
+		if(UObjectRedirector* RedirectorToFix = Cast<UObjectRedirector>(RedirectorData.GetAsset()))
 		{
-			Redirectors.Add(CastChecked<UObjectRedirector>(Object));
-			DebugHeader::Print(TEXT("Redirecte ") + Object->GetFullName());
+			RedirectorsToFixArray.Add(RedirectorToFix);
 		}
-		
-		// Load the asset tools module
-		FAssetToolsModule& AssetToolsModule = FModuleManager::LoadModuleChecked<FAssetToolsModule>(TEXT("AssetTools"));
-		AssetToolsModule.Get().FixupReferencers(Redirectors);
 	}
+
+	FAssetToolsModule& AssetToolsModule = FModuleManager::LoadModuleChecked<FAssetToolsModule>(TEXT("AssetTools"));
+	AssetToolsModule.Get().FixupReferencers(RedirectorsToFixArray);
 }
 

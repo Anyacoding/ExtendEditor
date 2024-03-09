@@ -8,6 +8,6 @@
 /NODEFAULTLIB
 "D:\Unreal Projects\ExtendEditor\Intermediate\Build\Win64\x64\ExtendEditorEditor\Development\UnrealEd\SharedPCH.UnrealEd.Cpp20.h.obj"
 "D:\Unreal Projects\ExtendEditor\Plugins\SuperManager\Intermediate\Build\Win64\x64\UnrealEditor\Development\SuperManager\Module.SuperManager.cpp.obj"
-"D:\Unreal Projects\ExtendEditor\Plugins\SuperManager\Intermediate\Build\Win64\x64\UnrealEditor\Development\SuperManager\SuperManager.cpp.obj"
+"D:\Unreal Projects\ExtendEditor\Plugins\SuperManager\Intermediate\Build\Win64\x64\UnrealEditor\Development\SuperManager\QuickAssetAction.cpp.obj"
 "D:\Unreal Projects\ExtendEditor\Plugins\SuperManager\Intermediate\Build\Win64\x64\UnrealEditor\Development\SuperManager\Default.rc2.res"
 /OUT:"D:\Unreal Projects\ExtendEditor\Plugins\SuperManager\Intermediate\Build\Win64\x64\UnrealEditor\Development\SuperManager\UnrealEditor-SuperManager.lib"

@@ -37,7 +37,7 @@
 /NATVIS:"..\Plugins\FX\Niagara\Intermediate\Build\Win64\x64\UnrealEditor\Development\Niagara\Niagara.natvis"
 "D:\Unreal Projects\ExtendEditor\Intermediate\Build\Win64\x64\ExtendEditorEditor\Development\UnrealEd\SharedPCH.UnrealEd.Cpp20.h.obj"
 "D:\Unreal Projects\ExtendEditor\Plugins\SuperManager\Intermediate\Build\Win64\x64\UnrealEditor\Development\SuperManager\Module.SuperManager.cpp.obj"
-"D:\Unreal Projects\ExtendEditor\Plugins\SuperManager\Intermediate\Build\Win64\x64\UnrealEditor\Development\SuperManager\SuperManager.cpp.obj"
+"D:\Unreal Projects\ExtendEditor\Plugins\SuperManager\Intermediate\Build\Win64\x64\UnrealEditor\Development\SuperManager\QuickAssetAction.cpp.obj"
 "D:\Unreal Projects\ExtendEditor\Plugins\SuperManager\Intermediate\Build\Win64\x64\UnrealEditor\Development\SuperManager\Default.rc2.res"
 "..\Intermediate\Build\Win64\x64\UnrealEditor\Development\CoreUObject\UnrealEditor-CoreUObject.lib"
 "..\Intermediate\Build\Win64\x64\UnrealEditor\Development\Engine\UnrealEditor-Engine.lib"
