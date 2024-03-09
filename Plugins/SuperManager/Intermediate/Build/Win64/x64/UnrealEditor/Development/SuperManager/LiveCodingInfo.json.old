@@ -1,0 +1,8 @@
+{
+	"RemapUnityFiles": 
+	{
+		"Module.SuperManager.cpp.obj": [
+			"SuperManager.cpp.obj"
+		]
+	}
+}

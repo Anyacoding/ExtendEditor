@@ -1,0 +1,37 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "d:\\unreal projects\\extendeditor\\plugins\\supermanager\\source\\supermanager\\private\\supermanager.cpp",
+        "ProvidedModule": "",
+        "PCH": "d:\\unreal projects\\extendeditor\\intermediate\\build\\win64\\x64\\extendeditoreditor\\development\\unrealed\\sharedpch.unrealed.cpp20.h.pch",
+        "Includes": [
+            "d:\\unreal projects\\extendeditor\\plugins\\supermanager\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\supermanager\\definitions.supermanager.h",
+            "d:\\unreal projects\\extendeditor\\plugins\\supermanager\\source\\supermanager\\public\\supermanager.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\editor\\contentbrowser\\public\\contentbrowsermodule.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\editor\\contentbrowser\\public\\contentbrowserdelegates.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\developer\\assettools\\public\\iassettypeactions.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\developer\\merge\\public\\merge.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\editor\\unrealed\\classes\\thumbnailrendering\\thumbnailmanager.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\editor\\unrealed\\classes\\thumbnailrendering\\thumbnailrenderer.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\unrealed\\uht\\thumbnailrenderer.generated.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\unrealed\\uht\\thumbnailmanager.generated.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\editor\\assetdefinition\\public\\assetdefinition.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\core\\public\\misc\\scopedslowtask.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\editor\\assetdefinition\\public\\misc\\assetfilterdata.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\editor\\assetdefinition\\public\\misc\\assetcategorypath.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\assetdefinition\\uht\\assetfilterdata.generated.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\assetdefinition\\uht\\assetdefinition.generated.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\editor\\contentbrowserdata\\public\\contentbrowserdatalegacybridge.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\editor\\contentbrowserdata\\public\\contentbrowserdatamenucontexts.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\editor\\contentbrowserdata\\public\\contentbrowseritem.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\editor\\contentbrowserdata\\public\\contentbrowseritemdata.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\contentbrowserdata\\uht\\contentbrowseritem.generated.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\developer\\collectionmanager\\public\\collectionmanagertypes.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\developer\\sourcecontrol\\public\\isourcecontrolstate.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\contentbrowserdata\\uht\\contentbrowserdatamenucontexts.generated.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\contentbrowserdata\\uht\\contentbrowserdatalegacybridge.generated.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}
