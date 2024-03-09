@@ -2,37 +2,40 @@
 #include "Framework/Notifications/NotificationManager.h"
 #include "Widgets/Notifications/SNotificationList.h"
 
-inline void Print(const FString& Message, const FColor& Color = FColor::Green)
+namespace DebugHeader
 {
-	if (GEngine)
+	static void Print(const FString& Message, const FColor& Color = FColor::Green)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 8.0f, Color, Message);
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 2.0f, Color, Message);
+		}
 	}
-}
 
-inline void PrintLog(const FString& Message)
-{
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *Message);
-}
-
-inline EAppReturnType::Type ShowMsgDialog(EAppMsgType::Type MsgType, const FString& Message, bool bShowMsgAsWarning = true)
-{
-	if (bShowMsgAsWarning)
+	static void PrintLog(const FString& Message)
 	{
-		const FText MsgTitle = FText::FromString(TEXT("Warning"));
-		return FMessageDialog::Open(MsgType, FText::FromString(Message), MsgTitle);
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *Message);
 	}
-	else
+
+	static EAppReturnType::Type ShowMsgDialog(EAppMsgType::Type MsgType, const FString& Message, bool bShowMsgAsWarning = true)
 	{
-		return FMessageDialog::Open(MsgType, FText::FromString(Message));
+		if (bShowMsgAsWarning)
+		{
+			const FText MsgTitle = FText::FromString(TEXT("Warning"));
+			return FMessageDialog::Open(MsgType, FText::FromString(Message), MsgTitle);
+		}
+		else
+		{
+			return FMessageDialog::Open(MsgType, FText::FromString(Message));
+		}
 	}
-}
 
-inline void ShowNotifyInfo(const FString& Message)
-{
-	FNotificationInfo NotifiInfo(FText::FromString(Message));
-	NotifiInfo.bUseLargeFont = true;
-	NotifiInfo.FadeOutDuration = 7.0f;
+	static void ShowNotifyInfo(const FString& Message)
+	{
+		FNotificationInfo NotifiInfo(FText::FromString(Message));
+		NotifiInfo.bUseLargeFont = true;
+		NotifiInfo.FadeOutDuration = 7.0f;
 
-	FSlateNotificationManager::Get().AddNotification(NotifiInfo);
+		FSlateNotificationManager::Get().AddNotification(NotifiInfo);
+	}
 }

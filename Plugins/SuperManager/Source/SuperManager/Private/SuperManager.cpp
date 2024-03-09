@@ -3,6 +3,9 @@
 #include "SuperManager.h"
 
 #include "ContentBrowserModule.h"
+#include "DebugHeader.h"
+#include "EditorAssetLibrary.h"
+#include "ObjectTools.h"
 
 #define LOCTEXT_NAMESPACE "FSuperManagerModule"
 
@@ -35,16 +38,74 @@ void FSuperManagerModule::InitContentBrowserExtention()
 TSharedRef<FExtender> FSuperManagerModule::CustomContentBrowserExtender(const TArray<FString>& SelectedPaths)
 {
 	TSharedRef<FExtender> MenuExtender(new FExtender());
-
+	
 	if (SelectedPaths.Num() > 0)
 	{
-		// MenuExtender->AddMenuExtension()
+		MenuExtender->AddMenuExtension(FName("Delete"), EExtensionHook::After, nullptr, FMenuExtensionDelegate::CreateRaw(this, &FSuperManagerModule::AddContentBrowserEntry));
+		this->FolderPathsSelected = SelectedPaths;
 	}
 	
 	return MenuExtender;
 }
 
+void FSuperManagerModule::AddContentBrowserEntry(FMenuBuilder& MenuBuilder)
+{
+	MenuBuilder.AddMenuEntry(FText::FromString(TEXT("Delete Unused Assets")), FText::FromString(TEXT("Safely delete all unused assets under folder")), FSlateIcon(), FExecuteAction::CreateRaw(this, &FSuperManagerModule::OnDeleteUnusedAssetButtonClicked));
+}
+
+void FSuperManagerModule::OnDeleteUnusedAssetButtonClicked()
+{
+	if (FolderPathsSelected.Num() > 1)
+	{
+		DebugHeader::ShowMsgDialog(EAppMsgType::Ok, TEXT("You can only do this to one folder"));
+		return;
+	}
+
+	TArray<FString> AssetPathNames = UEditorAssetLibrary::ListAssets(FolderPathsSelected[0]);
+
+	if (AssetPathNames.Num() == 0)
+	{
+		DebugHeader::ShowMsgDialog(EAppMsgType::Ok, TEXT("No asset found under selected folder"));
+		return;
+	}
+
+	EAppReturnType::Type ConfirmResult = DebugHeader::ShowMsgDialog(EAppMsgType::YesNo, TEXT("A total of ") + FString::FromInt(AssetPathNames.Num()) + TEXT(" found.\nWoudle you like to procceed?"));
+
+	if (ConfirmResult == EAppReturnType::No) return;
+
+	TArray<FAssetData> UnusedAssetDatas;
+
+	for (const FString& AssetPathName : AssetPathNames)
+	{
+		// Don't touch root folder
+		if (AssetPathName.Contains(TEXT("Developers")) || AssetPathName.Contains(TEXT("Collections")))
+		{
+			continue;
+		}
+
+		if (UEditorAssetLibrary::DoesAssetExist(AssetPathName) == false) continue;
+
+		TArray<FString> AssetReferencers = UEditorAssetLibrary::FindPackageReferencersForAsset(AssetPathName);
+
+		if (AssetReferencers.Num() == 0)
+		{
+			const FAssetData UnusedAssetData = UEditorAssetLibrary::FindAssetData(AssetPathName);
+			UnusedAssetDatas.Add(UnusedAssetData);
+		}
+	}
+
+	if (UnusedAssetDatas.Num() > 0)
+	{
+		int32 NumOfAssetsDeleted = ObjectTools::DeleteAssets(UnusedAssetDatas);
+	}
+	else
+	{
+		DebugHeader::ShowMsgDialog(EAppMsgType::Ok, TEXT("No unused asset found under selected folder"));
+	}
+}
+
 #pragma endregion 
+
 
 #undef LOCTEXT_NAMESPACE
 	

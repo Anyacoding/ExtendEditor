@@ -15,10 +15,13 @@ public:
 
 private:
 #pragma region ContentBrowserMenuExtention
+
+	TArray<FString> FolderPathsSelected;
 	
 	void InitContentBrowserExtention();
-
 	TSharedRef<FExtender> CustomContentBrowserExtender(const TArray<FString>& SelectedPaths);
-	
+	void AddContentBrowserEntry(FMenuBuilder& MenuBuilder);
+	void OnDeleteUnusedAssetButtonClicked();
+
 #pragma endregion 
 };
