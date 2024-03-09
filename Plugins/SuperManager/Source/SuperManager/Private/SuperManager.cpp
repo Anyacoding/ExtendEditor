@@ -53,13 +53,14 @@ TSharedRef<FExtender> FSuperManagerModule::CustomContentBrowserExtender(const TA
 void FSuperManagerModule::AddContentBrowserEntry(FMenuBuilder& MenuBuilder)
 {
 	MenuBuilder.AddMenuEntry(FText::FromString(TEXT("Delete Unused Assets")), FText::FromString(TEXT("Safely delete all unused assets under folder")), FSlateIcon(), FExecuteAction::CreateRaw(this, &FSuperManagerModule::OnDeleteUnusedAssetButtonClicked));
+	MenuBuilder.AddMenuEntry(FText::FromString(TEXT("Delete empty folders")), FText::FromString(TEXT("Safely delete all empty folders")), FSlateIcon(), FExecuteAction::CreateRaw(this, &FSuperManagerModule::OnDeleteEmptyFolderButtonClicked));
 }
 
 void FSuperManagerModule::OnDeleteUnusedAssetButtonClicked()
 {
 	if (FolderPathsSelected.Num() > 1)
 	{
-		DebugHeader::ShowMsgDialog(EAppMsgType::Ok, TEXT("You can only do this to one folder"));
+		DebugHeader::ShowMsgDialog(EAppMsgType::Ok, TEXT("You can only do this to one folder."));
 		return;
 	}
 
@@ -67,7 +68,7 @@ void FSuperManagerModule::OnDeleteUnusedAssetButtonClicked()
 
 	if (AssetPathNames.Num() == 0)
 	{
-		DebugHeader::ShowMsgDialog(EAppMsgType::Ok, TEXT("No asset found under selected folder"));
+		DebugHeader::ShowMsgDialog(EAppMsgType::Ok, TEXT("No asset found under selected folder."), false);
 		return;
 	}
 
@@ -106,8 +107,13 @@ void FSuperManagerModule::OnDeleteUnusedAssetButtonClicked()
 	}
 	else
 	{
-		DebugHeader::ShowMsgDialog(EAppMsgType::Ok, TEXT("No unused asset found under selected folder"));
+		DebugHeader::ShowMsgDialog(EAppMsgType::Ok, TEXT("No unused asset found under selected folder."), false);
 	}
+}
+
+void FSuperManagerModule::OnDeleteEmptyFolderButtonClicked()
+{
+	DebugHeader::Print(TEXT("Working"));
 }
 
 void FSuperManagerModule::FixUpRedirectors()
