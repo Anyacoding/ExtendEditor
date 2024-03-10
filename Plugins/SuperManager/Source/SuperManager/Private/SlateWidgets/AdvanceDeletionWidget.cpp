@@ -147,6 +147,8 @@ TSharedRef<SCheckBox> SAdvanceDeletionTab::ConstructCheckBox(const TSharedPtr<FA
 	.OnCheckStateChanged(this, &SAdvanceDeletionTab::OnCheckBoxStateChanged, AssetDataToDisplay)
 	.Visibility(EVisibility::Visible);
 
+	CheckBoxes.Add(ConstructedCheckBox);
+
 	return ConstructedCheckBox;
 }
 
@@ -209,11 +211,6 @@ FReply SAdvanceDeletionTab::OnDeleteButtonClicked(TSharedPtr<FAssetData> Clicked
 			StoredAssetDatas.Remove(ClickedAssetData);
 		}
 		
-		if (AssetDatasToDelete.Contains(ClickedAssetData))
-		{
-			AssetDatasToDelete.Remove(ClickedAssetData);
-		}
-		
 		RefreshAssetListView();
 	}
 	
@@ -263,8 +260,6 @@ TSharedRef<SButton> SAdvanceDeletionTab::ConstructDeSelectAllButton()
 
 FReply SAdvanceDeletionTab::OnDeleteAllButtonClicked()
 {
-	DebugHeader::Print(TEXT("DeleteAllButton"));
-	
 	if (AssetDatasToDelete.Num() == 0)
 	{
 		DebugHeader::ShowMsgDialog(EAppMsgType::Ok, TEXT("No asset currently selected."));
@@ -292,9 +287,6 @@ FReply SAdvanceDeletionTab::OnDeleteAllButtonClicked()
 			}
 		}
 		
-		// clear the AssetDatasToDelete
-		AssetDatasToDelete = {};
-		
 		RefreshAssetListView();
 	}
 	
@@ -303,13 +295,31 @@ FReply SAdvanceDeletionTab::OnDeleteAllButtonClicked()
 
 FReply SAdvanceDeletionTab::OnSelectAllButtonClicked()
 {
-	DebugHeader::Print(TEXT("SelectAllButton"));
+	if (CheckBoxes.Num() == 0) return FReply::Handled();
+
+	for (const TSharedRef<SCheckBox>& CheckBox : CheckBoxes)
+	{
+		if (CheckBox->IsChecked() == false)
+		{
+			CheckBox->ToggleCheckedState();
+		}
+	}
+	
 	return FReply::Handled();
 }
 
 FReply SAdvanceDeletionTab::OnDeSelectAllButtonClicked()
 {
-	DebugHeader::Print(TEXT("DeSelectAllButton"));
+	if (CheckBoxes.Num() == 0) return FReply::Handled();
+
+	for (const TSharedRef<SCheckBox>& CheckBox : CheckBoxes)
+	{
+		if (CheckBox->IsChecked() == true)
+		{
+			CheckBox->ToggleCheckedState();
+		}
+	}
+	
 	return FReply::Handled();
 }
 
@@ -340,8 +350,12 @@ TSharedRef<SListView<TSharedPtr<FAssetData>>> SAdvanceDeletionTab::ConstructAsse
 	return ConstructedAssetListView.ToSharedRef();
 }
 
-void SAdvanceDeletionTab::RefreshAssetListView() const
+void SAdvanceDeletionTab::RefreshAssetListView()
 {
+	// Clear the temp data array
+	AssetDatasToDelete.Empty();
+	CheckBoxes.Empty();
+	
 	if (ConstructedAssetListView.IsValid())
 	{
 		ConstructedAssetListView->RebuildList();

@@ -22,6 +22,8 @@ private:
 
 	TArray<TSharedPtr<FAssetData>> AssetDatasToDelete;
 
+	TArray<TSharedRef<SCheckBox>> CheckBoxes;
+
 	TSharedPtr<SListView<TSharedPtr<FAssetData>>> ConstructedAssetListView;
 
 private:
@@ -57,7 +59,7 @@ private:
 
 #pragma endregion 
 	
-	void RefreshAssetListView() const;
+	void RefreshAssetListView();
 	
 	static FSlateFontInfo GetEmbossedTextTextFont()
 	{
