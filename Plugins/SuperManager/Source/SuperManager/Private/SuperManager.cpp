@@ -15,6 +15,7 @@ void FSuperManagerModule::StartupModule()
 {
 	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
 	InitContentBrowserExtention();
+	RegisterAdvanceDeletionTab();
 }
 
 void FSuperManagerModule::ShutdownModule()
@@ -53,7 +54,8 @@ TSharedRef<FExtender> FSuperManagerModule::CustomContentBrowserExtender(const TA
 void FSuperManagerModule::AddContentBrowserEntry(FMenuBuilder& MenuBuilder)
 {
 	MenuBuilder.AddMenuEntry(FText::FromString(TEXT("Delete Unused Assets")), FText::FromString(TEXT("Safely delete all unused assets under folder")), FSlateIcon(), FExecuteAction::CreateRaw(this, &FSuperManagerModule::OnDeleteUnusedAssetButtonClicked));
-	MenuBuilder.AddMenuEntry(FText::FromString(TEXT("Delete empty folders")), FText::FromString(TEXT("Safely delete all empty folders")), FSlateIcon(), FExecuteAction::CreateRaw(this, &FSuperManagerModule::OnDeleteEmptyFolderButtonClicked));
+	MenuBuilder.AddMenuEntry(FText::FromString(TEXT("Delete Empty Folders")), FText::FromString(TEXT("Safely delete all empty folders")), FSlateIcon(), FExecuteAction::CreateRaw(this, &FSuperManagerModule::OnDeleteEmptyFolderButtonClicked));
+	MenuBuilder.AddMenuEntry(FText::FromString(TEXT("Advance Deletion")), FText::FromString(TEXT("List assets by specific condition in a tab for deleting")), FSlateIcon(), FExecuteAction::CreateRaw(this, &FSuperManagerModule::OnAdvanceDeletionButtonClicked));
 }
 
 void FSuperManagerModule::OnDeleteUnusedAssetButtonClicked()
@@ -63,6 +65,8 @@ void FSuperManagerModule::OnDeleteUnusedAssetButtonClicked()
 		DebugHeader::ShowMsgDialog(EAppMsgType::Ok, TEXT("You can only do this to one folder."));
 		return;
 	}
+
+	FixUpRedirectors();
 
 	TArray<FString> AssetPathNames = UEditorAssetLibrary::ListAssets(FolderPathsSelected[0]);
 
@@ -75,9 +79,7 @@ void FSuperManagerModule::OnDeleteUnusedAssetButtonClicked()
 	EAppReturnType::Type ConfirmResult = DebugHeader::ShowMsgDialog(EAppMsgType::YesNo, TEXT("A total of ") + FString::FromInt(AssetPathNames.Num()) + TEXT(" found.\nWould you like to procceed?"));
 
 	if (ConfirmResult == EAppReturnType::No) return;
-
-	FixUpRedirectors();
-
+	
 	TArray<FAssetData> UnusedAssetDatas;
 
 	for (const FString& AssetPathName : AssetPathNames)
@@ -170,6 +172,11 @@ void FSuperManagerModule::OnDeleteEmptyFolderButtonClicked()
 	}
 }
 
+void FSuperManagerModule::OnAdvanceDeletionButtonClicked()
+{
+	FGlobalTabmanager::Get()->TryInvokeTab(FName("AdvanceDeletion"));
+}
+
 void FSuperManagerModule::FixUpRedirectors()
 {
 	TArray<UObjectRedirector*> RedirectorsToFixArray;
@@ -195,7 +202,23 @@ void FSuperManagerModule::FixUpRedirectors()
 	AssetToolsModule.Get().FixupReferencers(RedirectorsToFixArray);
 }
 
-#pragma endregion 
+#pragma endregion
+
+
+#pragma region CustomEditorTab
+
+void FSuperManagerModule::RegisterAdvanceDeletionTab()
+{
+	FGlobalTabmanager::Get()->RegisterTabSpawner(FName("AdvanceDeletion"), FOnSpawnTab::CreateRaw(this, &FSuperManagerModule::OnSpawnAdvanceDeletionTab))
+	.SetDisplayName(FText::FromString(TEXT("Advance Deletion")));
+}
+
+TSharedRef<SDockTab> FSuperManagerModule::OnSpawnAdvanceDeletionTab(const FSpawnTabArgs& SpawnTabArgs)
+{
+	return SNew(SDockTab).TabRole(ETabRole::NomadTab);
+}
+
+#pragma endregion
 
 
 #undef LOCTEXT_NAMESPACE
