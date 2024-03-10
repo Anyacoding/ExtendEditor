@@ -5,9 +5,9 @@
 			"QuickAssetAction.gen.cpp.obj",
 			"SuperManager.init.gen.cpp.obj",
 			"QuickAssetAction.cpp.obj",
-			"AdvanceDeletionWidget.cpp.obj",
 			"SMyCompoundWidget.cpp.obj",
-			"SuperManager.cpp.obj"
+			"SuperManager.cpp.obj",
+			"AdvanceDeletionWidget.cpp.obj"
 		]
 	}
 }

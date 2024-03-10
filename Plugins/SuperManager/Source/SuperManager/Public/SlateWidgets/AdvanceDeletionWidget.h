@@ -14,13 +14,15 @@ class SAdvanceDeletionTab : public SCompoundWidget
 	
 	SLATE_END_ARGS()
 
+public:
+	void Construct(const FArguments& InArgs);
+
 private:
 	TArray<TSharedPtr<FAssetData>> StoredAssetDatas;
 
-	TSharedPtr<SListView<TSharedPtr<FAssetData>>> ConstructedAssetListView;
+	TArray<TSharedPtr<FAssetData>> AssetDatasToDelete;
 
-public:
-	void Construct(const FArguments& InArgs);
+	TSharedPtr<SListView<TSharedPtr<FAssetData>>> ConstructedAssetListView;
 
 private:
 #pragma region RowWidgetForAssetListView
@@ -37,10 +39,24 @@ private:
 
 	void OnCheckBoxStateChanged(ECheckBoxState NewState, TSharedPtr<FAssetData> AssetData);
 	
-#pragma endregion 
+#pragma endregion
+
+#pragma region TabButtons
 	
 	TSharedRef<SListView<TSharedPtr<FAssetData>>> ConstructAssetListView();
+	
+	TSharedRef<SButton> ConstructDeleteAllButton();
+	TSharedRef<SButton> ConstructSelectAllButton();
+	TSharedRef<SButton> ConstructDeSelectAllButton();
 
+	FReply OnDeleteAllButtonClicked();
+	FReply OnSelectAllButtonClicked();
+	FReply OnDeSelectAllButtonClicked();
+
+	TSharedRef<STextBlock> ConstructTextForTabButtons(const FString& TextContent);
+
+#pragma endregion 
+	
 	void RefreshAssetListView() const;
 	
 	static FSlateFontInfo GetEmbossedTextTextFont()

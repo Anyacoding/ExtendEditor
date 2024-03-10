@@ -51,6 +51,27 @@ void SAdvanceDeletionTab::Construct(const FArguments& InArgs)
 		.AutoHeight()
 		[
 			SNew(SHorizontalBox)
+			// DeleteAllButton slot
+			+SHorizontalBox::Slot()
+			.FillWidth(10.0f)
+			.Padding(5.0f)
+			[
+				ConstructDeleteAllButton()
+			]
+			// SelectAllButton slot
+			+SHorizontalBox::Slot()
+			.FillWidth(10.0f)
+			.Padding(5.0f)
+			[
+				ConstructSelectAllButton()
+			]
+			// DeSelectAllButton slot
+			+SHorizontalBox::Slot()
+			.FillWidth(10.0f)
+			.Padding(5.0f)
+			[
+				ConstructDeSelectAllButton()
+			]
 		]
 	];
 }
@@ -135,9 +156,14 @@ void SAdvanceDeletionTab::OnCheckBoxStateChanged(ECheckBoxState NewState, TShare
 	{
 	case ECheckBoxState::Checked:
 		DebugHeader::Print(TEXT("Checked"), FColor::Green);
+		AssetDatasToDelete.AddUnique(AssetData);
 		break;
 	case ECheckBoxState::Unchecked:
 		DebugHeader::Print(TEXT("Unchecked"), FColor::Red);
+		if (AssetDatasToDelete.Contains(AssetData))
+		{
+			AssetDatasToDelete.Remove(AssetData);
+		}
 		break;
 	case ECheckBoxState::Undetermined:
 		DebugHeader::Print(TEXT("Undetermined"), FColor::Yellow);
@@ -182,10 +208,123 @@ FReply SAdvanceDeletionTab::OnDeleteButtonClicked(TSharedPtr<FAssetData> Clicked
 		{
 			StoredAssetDatas.Remove(ClickedAssetData);
 		}
+		
+		if (AssetDatasToDelete.Contains(ClickedAssetData))
+		{
+			AssetDatasToDelete.Remove(ClickedAssetData);
+		}
+		
 		RefreshAssetListView();
 	}
 	
 	return FReply::Handled();
+}
+
+#pragma endregion
+
+
+#pragma region TabButtons
+
+TSharedRef<SButton> SAdvanceDeletionTab::ConstructDeleteAllButton()
+{
+	TSharedRef<SButton> DeleteAllButton =
+	SNew(SButton)
+	.ContentPadding(FMargin(5.0f))
+	.OnClicked(this, &SAdvanceDeletionTab::OnDeleteAllButtonClicked);
+
+	DeleteAllButton->SetContent(ConstructTextForTabButtons(TEXT("Delete All")));
+	
+	return DeleteAllButton;
+}
+
+TSharedRef<SButton> SAdvanceDeletionTab::ConstructSelectAllButton()
+{
+	TSharedRef<SButton> SelectAllButton =
+	SNew(SButton)
+	.ContentPadding(FMargin(5.0f))
+	.OnClicked(this, &SAdvanceDeletionTab::OnSelectAllButtonClicked);
+
+	SelectAllButton->SetContent(ConstructTextForTabButtons(TEXT("Select All")));
+	
+	return SelectAllButton;
+}
+
+TSharedRef<SButton> SAdvanceDeletionTab::ConstructDeSelectAllButton()
+{
+	TSharedRef<SButton> DeSelectAllButton =
+	SNew(SButton)
+	.ContentPadding(FMargin(5.0f))
+	.OnClicked(this, &SAdvanceDeletionTab::OnDeSelectAllButtonClicked);
+
+	DeSelectAllButton->SetContent(ConstructTextForTabButtons(TEXT("DeSelect All")));
+	
+	return DeSelectAllButton;
+}
+
+FReply SAdvanceDeletionTab::OnDeleteAllButtonClicked()
+{
+	DebugHeader::Print(TEXT("DeleteAllButton"));
+	
+	if (AssetDatasToDelete.Num() == 0)
+	{
+		DebugHeader::ShowMsgDialog(EAppMsgType::Ok, TEXT("No asset currently selected."));
+		return FReply::Handled();
+	}
+
+	TArray<FAssetData> AssetDatasToDeleteArray;
+
+	for (const TSharedPtr<FAssetData>& Data : AssetDatasToDelete)
+	{
+		AssetDatasToDeleteArray.Add(*Data.Get());
+	}
+
+	FSuperManagerModule& SuperManager = FModuleManager::LoadModuleChecked<FSuperManagerModule>(TEXT("SuperManager"));
+
+	const bool bAssetsDeleted = SuperManager.DeleteMultipleAssetsForAssetList(AssetDatasToDeleteArray);
+
+	if (bAssetsDeleted)
+	{
+		for (const TSharedPtr<FAssetData>& DeletedData : AssetDatasToDelete)
+		{
+			if (StoredAssetDatas.Contains(DeletedData))
+			{
+				StoredAssetDatas.Remove(DeletedData);
+			}
+		}
+		
+		// clear the AssetDatasToDelete
+		AssetDatasToDelete = {};
+		
+		RefreshAssetListView();
+	}
+	
+	return FReply::Handled();
+}
+
+FReply SAdvanceDeletionTab::OnSelectAllButtonClicked()
+{
+	DebugHeader::Print(TEXT("SelectAllButton"));
+	return FReply::Handled();
+}
+
+FReply SAdvanceDeletionTab::OnDeSelectAllButtonClicked()
+{
+	DebugHeader::Print(TEXT("DeSelectAllButton"));
+	return FReply::Handled();
+}
+
+TSharedRef<STextBlock> SAdvanceDeletionTab::ConstructTextForTabButtons(const FString& TextContent)
+{
+	FSlateFontInfo FontInfo = GetEmbossedTextTextFont();
+	FontInfo.Size = 15;
+	
+	TSharedRef<STextBlock> ConstructedText = 
+	SNew(STextBlock)
+	.Text(FText::FromString(TextContent))
+	.Font(FontInfo)
+	.Justification(ETextJustify::Center);
+
+	return ConstructedText;
 }
 
 #pragma endregion
