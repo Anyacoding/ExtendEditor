@@ -231,6 +231,8 @@ TArray<TSharedPtr<FAssetData>> FSuperManagerModule::GetAllAssetDataUnderSelected
 		DebugHeader::ShowMsgDialog(EAppMsgType::Ok, TEXT("You can only do this to one folder."));
 		return {};
 	}
+
+	FixUpRedirectors();
 	
 	TArray<TSharedPtr<FAssetData>> AvailableAssetData;
 	TArray<FString> AssetPathNames = UEditorAssetLibrary::ListAssets(FolderPathsSelected[0]);
@@ -252,6 +254,17 @@ TArray<TSharedPtr<FAssetData>> FSuperManagerModule::GetAllAssetDataUnderSelected
 	}
 
 	return AvailableAssetData;
+}
+
+#pragma endregion
+
+
+#pragma region ProccessDataForAdvanceDeletionTab
+
+bool FSuperManagerModule::DeleteSingleAssetForAssetList(const FAssetData& AssetDataToDelete)
+{
+	FixUpRedirectors();
+	return (ObjectTools::DeleteAssets({AssetDataToDelete}) > 0);
 }
 
 #pragma endregion

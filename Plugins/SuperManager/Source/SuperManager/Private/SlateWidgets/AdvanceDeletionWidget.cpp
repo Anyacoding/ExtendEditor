@@ -3,6 +3,7 @@
 
 #include "SlateWidgets/AdvanceDeletionWidget.h"
 #include "DebugHeader.h"
+#include "SuperManager.h"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 
@@ -42,10 +43,7 @@ void SAdvanceDeletionTab::Construct(const FArguments& InArgs)
 			SNew(SScrollBox)
 			+SScrollBox::Slot()
 			[
-				SNew(SListView<TSharedPtr<FAssetData>>)
-				.ItemHeight(24.0f)
-				.ListItemsSource(&StoredAssetDatas)
-				.OnGenerateRow(this, &SAdvanceDeletionTab::OnGenerateRowForList)
+				ConstructAssetListView()
 			]
 		]
 		// Fourth slot for 3 buttons
@@ -58,6 +56,9 @@ void SAdvanceDeletionTab::Construct(const FArguments& InArgs)
 }
 
 END_SLATE_FUNCTION_BUILD_OPTIMIZATION
+
+
+#pragma region RowWidgetForAssetListView
 
 TSharedRef<ITableRow>
 SAdvanceDeletionTab::OnGenerateRowForList(TSharedPtr<FAssetData> AssetDataToDisplay, const TSharedRef<STableViewBase>& OwnerTable)
@@ -110,7 +111,7 @@ SAdvanceDeletionTab::OnGenerateRowForList(TSharedPtr<FAssetData> AssetDataToDisp
 		.VAlign(VAlign_Fill)
 		.Padding(0.0f, 0.0f, 5.0f, 0.0f)
 		[
-		ConstructButtonForRowWidget(AssetDataToDisplay)
+			ConstructButtonForRowWidget(AssetDataToDisplay)
 		]
 	];
 
@@ -168,10 +169,44 @@ TSharedRef<SButton> SAdvanceDeletionTab::ConstructButtonForRowWidget(const TShar
 	return ConstructedButton;
 }
 
+
 FReply SAdvanceDeletionTab::OnDeleteButtonClicked(TSharedPtr<FAssetData> ClickedAssetData)
 {
-	DebugHeader::Print(ClickedAssetData->AssetName.ToString() + TEXT(" is clicked"));
+	FSuperManagerModule& SuperManager = FModuleManager::LoadModuleChecked<FSuperManagerModule>(TEXT("SuperManager"));
+	const bool bAssetDeleted = SuperManager.DeleteSingleAssetForAssetList(*ClickedAssetData.Get());
+
+	// Refresh the list
+	if (bAssetDeleted)
+	{
+		if (StoredAssetDatas.Contains(ClickedAssetData))
+		{
+			StoredAssetDatas.Remove(ClickedAssetData);
+		}
+		RefreshAssetListView();
+	}
+	
 	return FReply::Handled();
+}
+
+#pragma endregion
+
+TSharedRef<SListView<TSharedPtr<FAssetData>>> SAdvanceDeletionTab::ConstructAssetListView()
+{
+	ConstructedAssetListView = 
+	SNew(SListView<TSharedPtr<FAssetData>>)
+	.ItemHeight(24.0f)
+	.ListItemsSource(&StoredAssetDatas)
+	.OnGenerateRow(this, &SAdvanceDeletionTab::OnGenerateRowForList);
+	
+	return ConstructedAssetListView.ToSharedRef();
+}
+
+void SAdvanceDeletionTab::RefreshAssetListView() const
+{
+	if (ConstructedAssetListView.IsValid())
+	{
+		ConstructedAssetListView->RebuildList();
+	}
 }
 
 
