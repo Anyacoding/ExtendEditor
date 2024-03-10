@@ -57,19 +57,121 @@ void SAdvanceDeletionTab::Construct(const FArguments& InArgs)
 	];
 }
 
+END_SLATE_FUNCTION_BUILD_OPTIMIZATION
+
 TSharedRef<ITableRow>
 SAdvanceDeletionTab::OnGenerateRowForList(TSharedPtr<FAssetData> AssetDataToDisplay, const TSharedRef<STableViewBase>& OwnerTable)
 {
+	if (AssetDataToDisplay.IsValid() == false)
+	{
+		return SNew(STableRow<TSharedPtr<FAssetData>>, OwnerTable);
+	}
+	
+	const FString DisplayAssetClassName = AssetDataToDisplay->GetClass()->GetName();
 	const FString DisplayAssetName = AssetDataToDisplay->AssetName.ToString();
+
+	FSlateFontInfo AssetClassNameFont = GetEmbossedTextTextFont();
+	AssetClassNameFont.Size = 10;
+
+	FSlateFontInfo AssetNameFont = GetEmbossedTextTextFont();
+	AssetNameFont.Size = 10;
 	
 	TSharedRef<STableRow<TSharedPtr<FAssetData>>> ListViewWidget = 
 	SNew(STableRow<TSharedPtr<FAssetData>>, OwnerTable)
+	.Padding(FMargin(3.0f))
 	[
-		SNew(STextBlock)
-		.Text(FText::FromString(DisplayAssetName))
+		SNew(SHorizontalBox)
+		// First slot for check box
+		+SHorizontalBox::Slot()
+		.HAlign(HAlign_Left)
+		.VAlign(VAlign_Center)
+		.FillWidth(0.05f)
+		[
+			ConstructCheckBox(AssetDataToDisplay)
+		]
+		// Second slot for displaying asset class name
+		+SHorizontalBox::Slot()
+		.HAlign(HAlign_Left)
+		.VAlign(VAlign_Center)
+		.FillWidth(0.3f)
+		[
+			ConstructTextForRowWidget(DisplayAssetClassName, AssetClassNameFont)
+		]
+		// Third slot for displaying asset name
+		+SHorizontalBox::Slot()
+		.HAlign(HAlign_Left)
+		.VAlign(VAlign_Center)
+		[
+			ConstructTextForRowWidget(DisplayAssetName, AssetNameFont)
+		]
+		// Fourth slot for a button
+		+SHorizontalBox::Slot()
+		.HAlign(HAlign_Right)
+		.VAlign(VAlign_Fill)
+		.Padding(0.0f, 0.0f, 5.0f, 0.0f)
+		[
+		ConstructButtonForRowWidget(AssetDataToDisplay)
+		]
 	];
 
 	return ListViewWidget;
 }
 
-END_SLATE_FUNCTION_BUILD_OPTIMIZATION
+TSharedRef<SCheckBox> SAdvanceDeletionTab::ConstructCheckBox(const TSharedPtr<FAssetData>& AssetDataToDisplay)
+{
+	TSharedRef<SCheckBox> ConstructedCheckBox = 
+	SNew(SCheckBox)
+	.Type(ESlateCheckBoxType::CheckBox)
+	.OnCheckStateChanged(this, &SAdvanceDeletionTab::OnCheckBoxStateChanged, AssetDataToDisplay)
+	.Visibility(EVisibility::Visible);
+
+	return ConstructedCheckBox;
+}
+
+void SAdvanceDeletionTab::OnCheckBoxStateChanged(ECheckBoxState NewState, TSharedPtr<FAssetData> AssetData)
+{
+	switch (NewState)
+	{
+	case ECheckBoxState::Checked:
+		DebugHeader::Print(TEXT("Checked"), FColor::Green);
+		break;
+	case ECheckBoxState::Unchecked:
+		DebugHeader::Print(TEXT("Unchecked"), FColor::Red);
+		break;
+	case ECheckBoxState::Undetermined:
+		DebugHeader::Print(TEXT("Undetermined"), FColor::Yellow);
+		break;
+	default:
+		break;
+	}
+}
+
+TSharedRef<STextBlock>
+SAdvanceDeletionTab::ConstructTextForRowWidget(const FString& TextContent, const FSlateFontInfo& FontInfo)
+{
+	TSharedRef<STextBlock> ConstructedTextBlock = 
+	SNew(STextBlock)
+	.Text(FText::FromString(TextContent))
+	.Font(FontInfo)
+	.ColorAndOpacity(FColor::White);
+	
+	return ConstructedTextBlock;
+}
+
+TSharedRef<SButton> SAdvanceDeletionTab::ConstructButtonForRowWidget(const TSharedPtr<FAssetData>& AssetDataToDisplay)
+{
+	TSharedRef<SButton> ConstructedButton =
+	SNew(SButton)
+	.Text(FText::FromString(TEXT("Delete")))
+	.OnClicked(this, &SAdvanceDeletionTab::OnDeleteButtonClicked, AssetDataToDisplay);
+
+	return ConstructedButton;
+}
+
+FReply SAdvanceDeletionTab::OnDeleteButtonClicked(TSharedPtr<FAssetData> ClickedAssetData)
+{
+	DebugHeader::Print(ClickedAssetData->AssetName.ToString() + TEXT(" is clicked"));
+	return FReply::Handled();
+}
+
+
