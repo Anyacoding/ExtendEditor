@@ -194,18 +194,7 @@
             "d:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\projects\\public\\localizationdescriptor.h",
             "d:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\projects\\public\\moduledescriptor.h",
             "d:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\projects\\public\\pluginreferencedescriptor.h",
-            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\projects\\public\\versescope.h",
-            "d:\\unreal projects\\extendeditor\\plugins\\supermanager\\source\\supermanager\\private\\supermanager.cpp",
-            "d:\\unreal projects\\extendeditor\\plugins\\supermanager\\source\\supermanager\\public\\supermanager.h",
-            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\editor\\contentbrowser\\public\\contentbrowsermodule.h",
-            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\editor\\contentbrowser\\public\\contentbrowserdelegates.h",
-            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\editor\\contentbrowserdata\\public\\contentbrowserdatalegacybridge.h",
-            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\editor\\contentbrowserdata\\public\\contentbrowserdatamenucontexts.h",
-            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\editor\\contentbrowserdata\\public\\contentbrowseritem.h",
-            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\editor\\contentbrowserdata\\public\\contentbrowseritemdata.h",
-            "d:\\program files\\epic games\\ue_5.3\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\contentbrowserdata\\uht\\contentbrowseritem.generated.h",
-            "d:\\program files\\epic games\\ue_5.3\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\contentbrowserdata\\uht\\contentbrowserdatamenucontexts.generated.h",
-            "d:\\program files\\epic games\\ue_5.3\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\contentbrowserdata\\uht\\contentbrowserdatalegacybridge.generated.h"
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\projects\\public\\versescope.h"
         ],
         "ImportedModules": [],
         "ImportedHeaderUnits": []

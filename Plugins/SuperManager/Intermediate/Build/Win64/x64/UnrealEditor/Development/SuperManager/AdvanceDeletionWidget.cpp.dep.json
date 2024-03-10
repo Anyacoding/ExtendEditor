@@ -1,0 +1,19 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "d:\\unreal projects\\extendeditor\\plugins\\supermanager\\source\\supermanager\\private\\slatewidgets\\advancedeletionwidget.cpp",
+        "ProvidedModule": "",
+        "PCH": "d:\\unreal projects\\extendeditor\\intermediate\\build\\win64\\x64\\extendeditoreditor\\development\\unrealed\\sharedpch.unrealed.cpp20.h.pch",
+        "Includes": [
+            "d:\\unreal projects\\extendeditor\\plugins\\supermanager\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\supermanager\\definitions.supermanager.h",
+            "d:\\unreal projects\\extendeditor\\plugins\\supermanager\\source\\supermanager\\public\\slatewidgets\\advancedeletionwidget.h",
+            "d:\\unreal projects\\extendeditor\\plugins\\supermanager\\source\\supermanager\\public\\debugheader.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\slate\\public\\framework\\notifications\\notificationmanager.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\core\\public\\misc\\coreasynctasknotificationimpl.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\core\\public\\misc\\asynctasknotification.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\slate\\public\\widgets\\notifications\\snotificationlist.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}
