@@ -10,10 +10,14 @@ class SAdvanceDeletionTab : public SCompoundWidget
 	SLATE_BEGIN_ARGS(SAdvanceDeletionTab)
 	{}
 
-	SLATE_ARGUMENT(FString, TestString)
+	SLATE_ARGUMENT(TArray<TSharedPtr<FAssetData>>, AssetDatasToStore)
 	
 	SLATE_END_ARGS()
 
+private:
+	TArray<TSharedPtr<FAssetData>> StoredAssetDatas;
+
 public:
 	void Construct(const FArguments& InArgs);
+	TSharedRef<ITableRow> OnGenerateRowForList(TSharedPtr<FAssetData> AssetDataToDisplay, const TSharedRef<STableViewBase>& OwnerTable);
 };

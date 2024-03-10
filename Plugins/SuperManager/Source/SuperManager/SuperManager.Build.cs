@@ -34,7 +34,8 @@ public class SuperManager : ModuleRules
 				"Niagara",
 				"UnrealEd",
 				"AssetTools",
-				"ContentBrowser"
+				"ContentBrowser",
+				"InputCore"
 			}
 			);
 			

@@ -220,8 +220,38 @@ TSharedRef<SDockTab> FSuperManagerModule::OnSpawnAdvanceDeletionTab(const FSpawn
 	SNew(SDockTab).TabRole(ETabRole::NomadTab)
 	[
 		SNew(SAdvanceDeletionTab)
-		.TestString(TEXT("shit"))
+		.AssetDatasToStore(GetAllAssetDataUnderSelectedFolder())
 	];
+}
+
+TArray<TSharedPtr<FAssetData>> FSuperManagerModule::GetAllAssetDataUnderSelectedFolder()
+{
+	if (FolderPathsSelected.Num() > 1)
+	{
+		DebugHeader::ShowMsgDialog(EAppMsgType::Ok, TEXT("You can only do this to one folder."));
+		return {};
+	}
+	
+	TArray<TSharedPtr<FAssetData>> AvailableAssetData;
+	TArray<FString> AssetPathNames = UEditorAssetLibrary::ListAssets(FolderPathsSelected[0]);
+
+	for (const FString& AssetPathName : AssetPathNames)
+	{
+		// Don't touch root folder
+		if (AssetPathName.Contains(TEXT("Developers")) || AssetPathName.Contains(TEXT("Collections")) ||
+			AssetPathName.Contains(TEXT("__ExternalActors__")) || AssetPathName.Contains(TEXT("__ExternalObjects__")))
+		{
+			continue;
+		}
+
+		if (UEditorAssetLibrary::DoesAssetExist(AssetPathName) == false) continue;
+
+		const FAssetData Data = UEditorAssetLibrary::FindAssetData(AssetPathName);
+
+		AvailableAssetData.Add(MakeShared<FAssetData>(Data));
+	}
+
+	return AvailableAssetData;
 }
 
 #pragma endregion
