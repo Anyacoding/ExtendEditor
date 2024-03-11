@@ -51,6 +51,10 @@ public:
 	bool DeleteSingleAssetForAssetList(const FAssetData& AssetDataToDelete);
 
 	bool DeleteMultipleAssetsForAssetList(const TArray<FAssetData>& AssetDatasToDelete);
+
+	void ListUnusedAssetsForAssetList(const TArray<TSharedPtr<FAssetData>>& AssetDataToFilter, TArray<TSharedPtr<FAssetData>>& OutUnusedAssetDatas);
+
+	void ListSameNameAssetsForAssetList(const TArray<TSharedPtr<FAssetData>>& AssetDataToFilter, TArray<TSharedPtr<FAssetData>>& OutUnusedAssetDatas);
 	
 #pragma endregion
 	

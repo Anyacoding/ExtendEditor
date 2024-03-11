@@ -20,9 +20,15 @@ public:
 private:
 	TArray<TSharedPtr<FAssetData>> StoredAssetDatas;
 
-	TArray<TSharedPtr<FAssetData>> AssetDatasToDelete;
+	TArray<TSharedPtr<FAssetData>> DisplayAssetDatas;
 
+	TArray<TSharedPtr<FAssetData>> AssetDatasToDelete;
+	
 	TArray<TSharedRef<SCheckBox>> CheckBoxes;
+
+	TArray<TSharedPtr<FString>> ComboBoxSourceItems;
+
+	TSharedPtr<STextBlock> ComboDisplayTextBlock;
 
 	TSharedPtr<SListView<TSharedPtr<FAssetData>>> ConstructedAssetListView;
 
@@ -57,7 +63,19 @@ private:
 
 	TSharedRef<STextBlock> ConstructTextForTabButtons(const FString& TextContent);
 
-#pragma endregion 
+#pragma endregion
+	
+
+#pragma region ComboBoxForListingCondition
+
+	TSharedRef<SComboBox<TSharedPtr<FString>>> ConstructComboBox();
+
+	TSharedRef<SWidget> OnGenerateComboContent(TSharedPtr<FString> SourceItem);
+
+	void OnComboSelectionChanged(TSharedPtr<FString> SelectedOption, ESelectInfo::Type InSelectInfo);
+	
+#pragma endregion
+
 	
 	void RefreshAssetListView();
 	

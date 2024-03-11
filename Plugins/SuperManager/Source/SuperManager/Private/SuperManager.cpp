@@ -175,6 +175,7 @@ void FSuperManagerModule::OnDeleteEmptyFolderButtonClicked()
 
 void FSuperManagerModule::OnAdvanceDeletionButtonClicked()
 {
+	FixUpRedirectors();
 	FGlobalTabmanager::Get()->TryInvokeTab(FName("AdvanceDeletion"));
 }
 
@@ -271,6 +272,50 @@ bool FSuperManagerModule::DeleteMultipleAssetsForAssetList(const TArray<FAssetDa
 {
 	FixUpRedirectors();
 	return (ObjectTools::DeleteAssets(AssetDatasToDelete) > 0);
+}
+
+void FSuperManagerModule::ListUnusedAssetsForAssetList(const TArray<TSharedPtr<FAssetData>>& AssetDataToFilter, TArray<TSharedPtr<FAssetData>>& OutUnusedAssetDatas)
+{
+	OutUnusedAssetDatas.Empty();
+	
+	for (const TSharedPtr<FAssetData> DataSharedPtr : AssetDataToFilter)
+	{
+		TArray<FString> AssetReferencers = 
+		UEditorAssetLibrary::FindPackageReferencersForAsset(DataSharedPtr->GetObjectPathString());
+
+		if (AssetReferencers.Num() == 0)
+		{
+			OutUnusedAssetDatas.Add(DataSharedPtr);
+		}
+	}
+}
+
+void FSuperManagerModule::ListSameNameAssetsForAssetList(const TArray<TSharedPtr<FAssetData>>& AssetDataToFilter, TArray<TSharedPtr<FAssetData>>& OutUnusedAssetDatas)
+{
+	OutUnusedAssetDatas.Empty();
+
+	TMultiMap<FString, TSharedPtr<FAssetData>> AssetInfoMap;
+	
+	for (const TSharedPtr<FAssetData>& DataSharedPtr : AssetDataToFilter)
+	{
+		AssetInfoMap.Emplace(DataSharedPtr->AssetName.ToString(), DataSharedPtr);
+	}
+
+	for (const TSharedPtr<FAssetData>& DataSharedPtr : AssetDataToFilter)
+	{
+		TArray<TSharedPtr<FAssetData>> OutAssetData;
+		AssetInfoMap.MultiFind(DataSharedPtr->AssetName.ToString(), OutAssetData);
+
+		if (OutAssetData.Num() <= 1) continue;
+
+		for (const TSharedPtr<FAssetData>& SameNameData : OutAssetData)
+		{
+			if (SameNameData.IsValid())
+			{
+				OutUnusedAssetDatas.AddUnique(SameNameData);
+			}
+		}
+	}
 }
 
 #pragma endregion
