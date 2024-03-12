@@ -8,6 +8,7 @@
 #include "ObjectTools.h"
 #include "AssetRegistry/AssetRegistryModule.h"
 #include "AssetToolsModule.h"
+#include "CustomStyle/SuperManagerStyle.h"
 #include "SlateWidgets/AdvanceDeletionWidget.h"
 
 #define LOCTEXT_NAMESPACE "FSuperManagerModule"
@@ -15,6 +16,7 @@
 void FSuperManagerModule::StartupModule()
 {
 	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
+	FSuperManagerStyle::InitializedIcons();
 	InitContentBrowserExtention();
 	RegisterAdvanceDeletionTab();
 }
@@ -24,6 +26,7 @@ void FSuperManagerModule::ShutdownModule()
 	// This function may be called during shutdown to clean up your module.  For modules that support dynamic reloading,
 	// we call this function before unloading the module.
 	FGlobalTabmanager::Get()->UnregisterNomadTabSpawner(FName("AdvanceDeletion"));
+	FSuperManagerStyle::ShutDown();
 }
 
 #pragma region ContentBrowserMenuExtention
@@ -55,9 +58,14 @@ TSharedRef<FExtender> FSuperManagerModule::CustomContentBrowserExtender(const TA
 
 void FSuperManagerModule::AddContentBrowserEntry(FMenuBuilder& MenuBuilder)
 {
-	MenuBuilder.AddMenuEntry(FText::FromString(TEXT("Delete Unused Assets")), FText::FromString(TEXT("Safely delete all unused assets under folder")), FSlateIcon(), FExecuteAction::CreateRaw(this, &FSuperManagerModule::OnDeleteUnusedAssetButtonClicked));
-	MenuBuilder.AddMenuEntry(FText::FromString(TEXT("Delete Empty Folders")), FText::FromString(TEXT("Safely delete all empty folders")), FSlateIcon(), FExecuteAction::CreateRaw(this, &FSuperManagerModule::OnDeleteEmptyFolderButtonClicked));
-	MenuBuilder.AddMenuEntry(FText::FromString(TEXT("Advance Deletion")), FText::FromString(TEXT("List assets by specific condition in a tab for deleting")), FSlateIcon(), FExecuteAction::CreateRaw(this, &FSuperManagerModule::OnAdvanceDeletionButtonClicked));
+	MenuBuilder.
+	AddMenuEntry(FText::FromString(TEXT("Delete Unused Assets")), FText::FromString(TEXT("Safely delete all unused assets under folder")), FSlateIcon(FSuperManagerStyle::GetStyleSetName(), "ContentBrowser.DeleteUnusedAssets"), FExecuteAction::CreateRaw(this, &FSuperManagerModule::OnDeleteUnusedAssetButtonClicked));
+
+	MenuBuilder.
+	AddMenuEntry(FText::FromString(TEXT("Delete Empty Folders")), FText::FromString(TEXT("Safely delete all empty folders")), FSlateIcon(FSuperManagerStyle::GetStyleSetName(), "ContentBrowser.DeleteEmptyFolders"), FExecuteAction::CreateRaw(this, &FSuperManagerModule::OnDeleteEmptyFolderButtonClicked));
+
+	MenuBuilder.
+	AddMenuEntry(FText::FromString(TEXT("Advance Deletion")), FText::FromString(TEXT("List assets by specific condition in a tab for deleting")), FSlateIcon(FSuperManagerStyle::GetStyleSetName(), "ContentBrowser.AdvanceDeletion"), FExecuteAction::CreateRaw(this, &FSuperManagerModule::OnAdvanceDeletionButtonClicked));
 }
 
 void FSuperManagerModule::OnDeleteUnusedAssetButtonClicked()
@@ -213,7 +221,8 @@ void FSuperManagerModule::FixUpRedirectors()
 void FSuperManagerModule::RegisterAdvanceDeletionTab()
 {
 	FGlobalTabmanager::Get()->RegisterTabSpawner(FName("AdvanceDeletion"), FOnSpawnTab::CreateRaw(this, &FSuperManagerModule::OnSpawnAdvanceDeletionTab))
-	.SetDisplayName(FText::FromString(TEXT("Advance Deletion")));
+	.SetDisplayName(FText::FromString(TEXT("Advance Deletion")))
+	.SetIcon(FSlateIcon(FSuperManagerStyle::GetStyleSetName(), "ContentBrowser.AdvanceDeletion"));
 }
 
 TSharedRef<SDockTab> FSuperManagerModule::OnSpawnAdvanceDeletionTab(const FSpawnTabArgs& SpawnTabArgs)

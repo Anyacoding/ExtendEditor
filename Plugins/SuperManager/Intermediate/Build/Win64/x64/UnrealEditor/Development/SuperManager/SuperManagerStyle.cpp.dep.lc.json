@@ -6,7 +6,15 @@
         "PCH": "d:\\unreal projects\\extendeditor\\intermediate\\build\\win64\\x64\\extendeditoreditor\\development\\unrealed\\sharedpch.unrealed.cpp20.h.pch",
         "Includes": [
             "d:\\unreal projects\\extendeditor\\plugins\\supermanager\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\supermanager\\definitions.supermanager.h",
-            "d:\\unreal projects\\extendeditor\\plugins\\supermanager\\source\\supermanager\\public\\customstyle\\supermanagerstyle.h"
+            "d:\\unreal projects\\extendeditor\\plugins\\supermanager\\source\\supermanager\\public\\customstyle\\supermanagerstyle.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\projects\\public\\interfaces\\ipluginmanager.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\projects\\public\\plugindescriptor.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\projects\\public\\custombuildsteps.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\projects\\public\\localizationdescriptor.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\projects\\public\\moduledescriptor.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\projects\\public\\pluginreferencedescriptor.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\projects\\public\\versescope.h",
+            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\slatecore\\public\\styling\\slatestyleregistry.h"
         ],
         "ImportedModules": [],
         "ImportedHeaderUnits": []

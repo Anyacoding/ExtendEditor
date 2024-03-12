@@ -2,4 +2,5 @@
 #include "D:/Unreal Projects/ExtendEditor/Plugins/SuperManager/Intermediate/Build/Win64/UnrealEditor/Inc/SuperManager/UHT/QuickAssetAction.gen.cpp"
 #include "D:/Unreal Projects/ExtendEditor/Plugins/SuperManager/Intermediate/Build/Win64/UnrealEditor/Inc/SuperManager/UHT/SuperManager.init.gen.cpp"
 #include "D:/Unreal Projects/ExtendEditor/Plugins/SuperManager/Source/SuperManager/Private/AssetActions/QuickAssetAction.cpp"
+#include "D:/Unreal Projects/ExtendEditor/Plugins/SuperManager/Source/SuperManager/Private/SlateWidgets/AdvanceDeletionWidget.cpp"
 #include "D:/Unreal Projects/ExtendEditor/Plugins/SuperManager/Source/SuperManager/Private/SlateWidgets/SMyCompoundWidget.cpp"

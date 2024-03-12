@@ -199,17 +199,7 @@
             "d:\\unreal projects\\extendeditor\\plugins\\supermanager\\source\\supermanager\\public\\slatewidgets\\advancedeletionwidget.h",
             "d:\\unreal projects\\extendeditor\\plugins\\supermanager\\source\\supermanager\\public\\supermanager.h",
             "d:\\unreal projects\\extendeditor\\plugins\\supermanager\\source\\supermanager\\private\\slatewidgets\\smycompoundwidget.cpp",
-            "d:\\unreal projects\\extendeditor\\plugins\\supermanager\\source\\supermanager\\public\\slatewidgets\\smycompoundwidget.h",
-            "d:\\unreal projects\\extendeditor\\plugins\\supermanager\\source\\supermanager\\private\\supermanager.cpp",
-            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\editor\\contentbrowser\\public\\contentbrowsermodule.h",
-            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\editor\\contentbrowser\\public\\contentbrowserdelegates.h",
-            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\editor\\contentbrowserdata\\public\\contentbrowserdatalegacybridge.h",
-            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\editor\\contentbrowserdata\\public\\contentbrowserdatamenucontexts.h",
-            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\editor\\contentbrowserdata\\public\\contentbrowseritem.h",
-            "d:\\program files\\epic games\\ue_5.3\\engine\\source\\editor\\contentbrowserdata\\public\\contentbrowseritemdata.h",
-            "d:\\program files\\epic games\\ue_5.3\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\contentbrowserdata\\uht\\contentbrowseritem.generated.h",
-            "d:\\program files\\epic games\\ue_5.3\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\contentbrowserdata\\uht\\contentbrowserdatamenucontexts.generated.h",
-            "d:\\program files\\epic games\\ue_5.3\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\contentbrowserdata\\uht\\contentbrowserdatalegacybridge.generated.h"
+            "d:\\unreal projects\\extendeditor\\plugins\\supermanager\\source\\supermanager\\public\\slatewidgets\\smycompoundwidget.h"
         ],
         "ImportedModules": [],
         "ImportedHeaderUnits": []
