@@ -1,0 +1,13 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "d:\\unreal projects\\extendeditor\\plugins\\supermanager\\intermediate\\build\\win64\\unrealeditor\\inc\\supermanager\\uht\\supermanager.init.gen.cpp",
+        "ProvidedModule": "",
+        "PCH": "d:\\unreal projects\\extendeditor\\intermediate\\build\\win64\\x64\\extendeditoreditor\\development\\unrealed\\sharedpch.unrealed.cpp20.h.pch",
+        "Includes": [
+            "d:\\unreal projects\\extendeditor\\plugins\\supermanager\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\supermanager\\definitions.supermanager.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}
