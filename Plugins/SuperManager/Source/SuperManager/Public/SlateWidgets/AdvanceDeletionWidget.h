@@ -11,6 +11,8 @@ class SAdvanceDeletionTab : public SCompoundWidget
 	{}
 
 	SLATE_ARGUMENT(TArray<TSharedPtr<FAssetData>>, AssetDatasToStore)
+
+	SLATE_ARGUMENT(FString, CurrentSelectedFolder)
 	
 	SLATE_END_ARGS()
 
@@ -46,6 +48,8 @@ private:
 	FReply OnDeleteButtonClicked(TSharedPtr<FAssetData> ClickedAssetData);
 
 	void OnCheckBoxStateChanged(ECheckBoxState NewState, TSharedPtr<FAssetData> AssetData);
+
+	void OnRowWidgetMouseButtonClicked(TSharedPtr<FAssetData> ClickedData);
 	
 #pragma endregion
 
@@ -73,6 +77,8 @@ private:
 	TSharedRef<SWidget> OnGenerateComboContent(TSharedPtr<FString> SourceItem);
 
 	void OnComboSelectionChanged(TSharedPtr<FString> SelectedOption, ESelectInfo::Type InSelectInfo);
+
+	TSharedRef<STextBlock> ConstructComboHelpTexts(const FString& TextContent, ETextJustify::Type TextJustify);
 	
 #pragma endregion
 
