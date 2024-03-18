@@ -34,6 +34,8 @@ private:
 	bool ProcessSelectionData(const TArray<FAssetData>& SelectedDataToProcess, TArray<UTexture2D*>& OutSelectedTextures, FString& OutSelectedPackagePath);
 
 	bool ChekcIsNameUsed(const FString& FolderPathToCheck, const FString& MaterialNameToCheck);
+
+	UMaterial* CreateMaterialAsset(const FString& NameOfTheMaterial, const FString& PathToPutMaterial);
 	
 #pragma endregion
 
